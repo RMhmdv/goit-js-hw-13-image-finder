@@ -36,14 +36,18 @@ function onSearch (e) {
     loadMoreButton.show();
     imageApiService.resetPage();
     clearGalleryContainer();
-    fetchImages();
+    loadMoreButton.disable();
+    imageApiService.asyncFetchImages().then(hits => {
+        appendImagesMarkup(hits);
+        loadMoreButton.enable();
+    })
 }
     
 function fetchImages() {
     loadMoreButton.disable();
     imageApiService.asyncFetchImages().then(hits => {
         appendImagesMarkup(hits);
-        loadMoreButton.enable();
+        loadMoreButton.enable();   
         window.scrollTo({
             top: refs.galleryContainer.offsetHeight,
             left: 0,
